@@ -2,7 +2,7 @@ import fs from "fs";
 
 type requestType = {
   name: string;
-  isEnable: boolean;
+  status: boolean;
 };
 
 export async function POST(request: Request) {
@@ -10,11 +10,11 @@ export async function POST(request: Request) {
     const req: requestType = await request.json();
     const settigs = fs.readFileSync("./public/settings.json", "utf-8");
     const data = JSON.parse(settigs);
-    data[req.name] = req.isEnable;
+    data[req.name] = req.status;
     fs.writeFileSync("./public/settings.json", JSON.stringify(data), "utf-8");
     return Response.json(
       {
-        response: `Config ${req.name} was changed to ${req.isEnable}`,
+        response: `Config ${req.name} was changed to ${req.status}`,
       },
       { status: 201 }
     );

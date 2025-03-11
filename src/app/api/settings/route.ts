@@ -6,5 +6,6 @@ export async function GET() {
     return Response.json(JSON.parse(data));
   } catch (error) {
     console.log(error);
+    return Response.json({ msg: "Failed to get settings" }, { status: 500 });
   }
 }

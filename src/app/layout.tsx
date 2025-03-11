@@ -28,12 +28,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-dark text-white`}
       >
-        <main className="container mx-auto w-2xl mt-5">
+        <main className="container mx-auto w-4xl mt-5">
           {/* Header */}
-          <div className="flex items-center py-5 border border-white/15">
+          <div className="flex items-center py-5 border border-white/15 rounded">
             <h2 className="text-2xl font-bold mx-auto">Waves 2.1.2</h2>
           </div>
-          <section className="border-l border-r border-b flex border-white/15">
+          <section className="border-l border-r border-b flex border-white/15 rounded">
             <Sidenav />
             <div className="flex-1">{children}</div>
           </section>

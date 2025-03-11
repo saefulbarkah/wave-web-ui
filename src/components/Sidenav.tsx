@@ -11,8 +11,8 @@ export const Sidenav = () => {
   };
 
   return (
-    <aside className="sticky top-0 w-32 border-r border-white/15">
-      <nav className="flex items-center flex-col px-5 py-2 gap-2">
+    <aside className="sticky top-0 min-w-42 border-r border-white/15">
+      <nav className="flex items-center flex-col px-5 py-5 gap-2">
         {Route.map((item, idx) => (
           <button
             key={idx}

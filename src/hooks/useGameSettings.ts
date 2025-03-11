@@ -1,6 +1,20 @@
+import { GameConfig } from "@/interfaces/settings";
 import API from "@/lib/axios";
+import { AxiosResponse } from "axios";
+import { create } from "zustand";
+
+type gameType = {
+  isFetching: boolean;
+  setFetching: (status: boolean) => void;
+};
+
+const useGameSettingState = create<gameType>()((set) => ({
+  isFetching: true,
+  setFetching: (status) => set({ isFetching: status }),
+}));
 
 export const useGameSettings = () => {
+  const { isFetching, setFetching } = useGameSettingState();
   const updateGameSetting = async ({
     name,
     status,
@@ -17,11 +31,21 @@ export const useGameSettings = () => {
     }
   };
 
-  const getGameSetting = async () => {
+  const getGameSetting = async (): Promise<AxiosResponse<GameConfig>> => {
     const response = await API.get("/settings");
-    const data = await response.data;
-    return data;
+    if (response.status === 200) {
+      setFetching(false);
+    }
+    return response;
   };
 
-  return { updateGameSetting, getGameSetting };
+  const createDefaultSetting = async (): Promise<AxiosResponse<GameConfig>> => {
+    const response = await API.get("/settings/create");
+    if (response.status === 200) {
+      setFetching(false);
+    }
+    return response;
+  };
+
+  return { updateGameSetting, getGameSetting, createDefaultSetting, isFetching };
 };

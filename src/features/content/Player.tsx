@@ -24,6 +24,10 @@ const playerMenu: playerMenu[] = [
     label: "Always Critical Hit",
     name: "AlwaysCrit",
   },
+  {
+    label: "No Clip",
+    name: "NoClip",
+  },
 ];
 
 export const Player = () => {
@@ -54,18 +58,6 @@ export const Player = () => {
         </div>
         <div className="flex flex-col gap-4">
           <h2 className="font-bold text-2xl">Player</h2>
-          {playerMenu.map((item, i) => (
-            <Card className="bg-box text-white border-none p-4" key={i}>
-              <div className="flex items-center gap-2 justify-between">
-                <p className="font-semibold">{item.label}</p>
-                <Checkbox
-                  name={item.name}
-                  checked={settings[item.name] ? true : false}
-                  onChange={handleToggle}
-                />
-              </div>
-            </Card>
-          ))}
         </div>
       </div>
     </div>

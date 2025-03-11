@@ -3,27 +3,14 @@
 import { useGameSettings } from "@/hooks/useGameSettings";
 import { useActiveContent } from "../hooks/useActiveContent";
 import { Player } from "./content/Player";
-import { GameConfig } from "@/interfaces/settings";
-import React from "react";
+import React, { useEffect } from "react";
 
 export const Home = () => {
-  const [settings, setSettings] = React.useState<GameConfig>();
-
   const { active } = useActiveContent();
-  const { getGameSetting, isFetching, createDefaultSetting } = useGameSettings();
+  const { isFetching, fetchSetting } = useGameSettings();
 
-  const fetchData = async () => {
-    const data = await getGameSetting();
-    if (data.status === 200) {
-      return setSettings(data.data);
-    }
-    const sett = await createDefaultSetting();
-    return setSettings(sett.data);
-  };
-
-  React.useEffect(() => {
-    fetchData();
-    /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    fetchSetting();
   }, []);
 
   return (
@@ -35,9 +22,9 @@ export const Home = () => {
           </div>
         </div>
       ) : null}
-      {active === "player" ? <Player settings={settings} /> : null}
-      {active === "world" ? <Player settings={settings} /> : null}
-      {active === "misc" ? <Player settings={settings} /> : null}
+      {active === "player" ? <Player /> : null}
+      {active === "world" ? <Player /> : null}
+      {active === "misc" ? <Player /> : null}
     </div>
   );
 };

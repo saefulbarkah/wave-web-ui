@@ -1,26 +1,73 @@
 import { Checkbox } from "@/components/Checkbox";
+import { Card, CardContent } from "@/components/ui/card";
 import { useGameSettings } from "@/hooks/useGameSettings";
 import { GameConfig } from "@/interfaces/settings";
 import React from "react";
 
-export const Player = ({ settings }: { settings: GameConfig | undefined }) => {
-  const { updateGameSetting } = useGameSettings();
-  const handleToggle = (el: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+type indexingSetting = keyof GameConfig;
+
+type playerMenu = {
+  label: string;
+  name: indexingSetting;
+};
+
+const playerMenu: playerMenu[] = [
+  {
+    label: "God Mode",
+    name: "GodMode",
+  },
+  {
+    label: "No Cooldown",
+    name: "NoCD",
+  },
+  {
+    label: "Always Critical Hit",
+    name: "AlwaysCrit",
+  },
+];
+
+export const Player = () => {
+  const { updateGameSetting, settings } = useGameSettings();
+  const handleToggle = (el: React.ChangeEvent<HTMLInputElement>) => {
     updateGameSetting({ name: el.currentTarget.name, status: el.currentTarget.checked });
   };
+
   return (
-    <div className="grid grid-cols-2">
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-2">
-          <Checkbox name="GodMode" defaultChecked={settings?.GodMode} onClick={handleToggle} />
-          <p>God Mode</p>
+    <div className="">
+      <div className="grid grid-cols-2 gap-5">
+        <div className="flex flex-col gap-4">
+          <h2 className="font-bold text-2xl">Player</h2>
+          {playerMenu.map((item, i) => (
+            <Card className="bg-box text-white border-none p-4" key={i}>
+              <CardContent className="p-0">
+                <div className="flex items-center gap-2 justify-between">
+                  <p className="font-semibold">{item.label}</p>
+                  <Checkbox
+                    name={item.name}
+                    checked={settings[item.name] ? true : false}
+                    onChange={handleToggle}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-        <div className="flex items-center gap-2">
-          <Checkbox name="NoCD" defaultChecked={settings?.NoCD} onClick={handleToggle} />
-          <p>No Cooldown</p>
+        <div className="flex flex-col gap-4">
+          <h2 className="font-bold text-2xl">Player</h2>
+          {playerMenu.map((item, i) => (
+            <Card className="bg-box text-white border-none p-4" key={i}>
+              <div className="flex items-center gap-2 justify-between">
+                <p className="font-semibold">{item.label}</p>
+                <Checkbox
+                  name={item.name}
+                  checked={settings[item.name] ? true : false}
+                  onChange={handleToggle}
+                />
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
-      <div className=""></div>
     </div>
   );
 };
